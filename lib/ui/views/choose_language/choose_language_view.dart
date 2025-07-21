@@ -1,9 +1,18 @@
 import 'package:expresso_self_care/constants/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-class ChooseLanguageView extends StatelessWidget {
+import '../../../enums/language_enum.dart';
+import '../../widgets/language_card.dart';
+
+class ChooseLanguageView extends StatefulWidget {
   const ChooseLanguageView({super.key});
+
+  @override
+  State<ChooseLanguageView> createState() => _ChooseLanguageViewState();
+}
+
+class _ChooseLanguageViewState extends State<ChooseLanguageView> {
+  Language? selectedLanguage;
 
   @override
   Widget build(BuildContext context) {
@@ -24,24 +33,40 @@ class ChooseLanguageView extends StatelessWidget {
                   Text('LANGUAGE', style: kTitleTextStyle),
                   SizedBox(height: 20),
                   Text('Choisissez votre langue', style: kSubtitleTextStyle),
+                  LanguageCard(
+                    language: kEnglish,
+                    imageDest: kEnglishCard,
+                    color: selectedLanguage == Language.english
+                        ? kActiveCardColor
+                        : kInactiveCardColor,
+                    onPress: () {
+                      setState(() {
+                        selectedLanguage = Language.english;
+                      });
+                    },
+                  ),
+                  LanguageCard(
+                    language: kFrench,
+                    imageDest: kFrenchCard,
+                    color: selectedLanguage == Language.french
+                        ? kActiveCardColor
+                        : kInactiveCardColor,
+                    onPress: () {
+                      setState(() {
+                        selectedLanguage = Language.french;
+                      });
+                    },
+                  ),
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color:
+                          selectedLanguage == Language.french ||
+                              selectedLanguage == Language.english
+                          ? kActiveButtonColor
+                          : kInactiveButtonColor,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.all(26.5),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          SvgPicture.asset('assets/svg/english.svg'),
-                          Text(
-                            'ENGLISH',
-                            style: kSubtitleTextStyle.copyWith(fontSize: 19),
-                          ),
-                        ],
-                      ),
-                    ),
+                    child: Text('Continue'),
                   ),
                 ],
               ),
